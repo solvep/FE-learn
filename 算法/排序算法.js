@@ -25,6 +25,20 @@ function sort1(arr) {
 }
 
 
+// 插入排序
+
+function sort2(arr) {
+  if(arr == null || arr.length < 2) {
+    return
+  }
+  for(let i = 1; i < arr.length ; i++) {
+    for(let j = i; j > 0 && arr[j] < arr[j - 1]; j--) {
+      swap(arr, j, j - 1 )
+    }
+  }
+  return arr
+}
+
 function swap(arr, i, j) {
   arr[i] = arr[i] ^ arr[j]
   arr[j] = arr[i] ^ arr[j]
@@ -35,6 +49,8 @@ let arr = [1, 3, 34, 5, 23, 567, 354, 234, 43]
 
 console.log('arr', sort(arr))
 console.log('arr', sort1(arr))
+console.log('arr', sort2(arr))
+
 
 function test() {
   let testArr = []
