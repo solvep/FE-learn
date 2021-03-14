@@ -11,12 +11,49 @@ function process(arr, left, right) {
   if(left == right) return arr[left] // 出口
 
   let mid = left + ((right - left) >> 1)
-  console.log('mid', mid)
   let leftMax = process(arr, left, mid)
   let rightMax = process(arr, mid + 1, right)
   return Math.max(leftMax, rightMax)
 }
 
-let arr = [1,24,4,65,32,245,345,345,575]
+// let arr = [1,24,4,65,32,245,345,345,575]
 
-console.log('---', process(arr, 0, 3))
+// console.log('---', process(arr, 0, 3))
+
+
+// 递归排序
+
+function process2 (arr, left, right) {
+  if(left == right) return  // 出口
+
+  let mid = left + ((right - left) >> 1)
+  process2(arr, left, mid)
+  process2(arr, mid + 1, right)
+  merge(arr, left, mid, right)
+}
+
+function merge(arr, L, M, R) {
+  let help = []
+  let i = 0;
+  let p1 = L;
+  let p2 = M + 1;
+  while(p1 <= M && p2 <= R) {
+    help[i++] = arr[p1] <= arr[p2] ? arr[p1++] : arr[p2++];
+  }
+  while (p1 <= M) {
+    help[i++] = arr[p1++];
+  }
+  while (p2 <= R) {
+    help[i++] = arr[p2++]
+  }
+
+  for(i = 0; i < help.length; i++) {
+    console.log('---', arr[L + i])
+    arr[L + i] = help[i]
+  }
+}
+
+// let arr = [1,24,4,65,32,245,345,345,575]
+let arr = [1, 24, 4]
+
+console.log('---', process2(arr, 0, 2), arr)
