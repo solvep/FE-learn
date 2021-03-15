@@ -77,7 +77,7 @@ let totalNum = 0
 function process3 (arr, left, right) {
   if(left == right) return  // 出口
 
-  let mid = left + ((right - left) >> 1)
+  let mid = left + ((right - left) >> 1 )
   process3(arr, left, mid)
   process3(arr, mid + 1, right)
   merge1(arr, left, mid, right)
@@ -114,3 +114,43 @@ let arr = [1, 3, 4, 2, 5]
 console.log('---', process3(arr, 0, 4), arr)
 
 console.log('totalNum', totalNum)
+
+
+// 荷兰过期问题
+/**
+ * 问题一， 给定一个数组arr， 和一个数num，请把小于等于num的数放在数组的左边，
+ * 大于num的数放在数组的右边。 要求额外的空间复杂度O（1），时间复杂度 n
+ * 
+**/
+
+function process4(arr, target) {
+  let i = 0;
+  let j = arr.length - 1;
+  for(let k = 0; k < j  ; k++) {
+    if(arr[k] < target) {
+      swap(arr, k, i)
+      i++
+    }
+    if(arr[k] == target) {
+      // j++
+      console.log('++')
+    }
+
+    if(arr[k] > target) {
+      swap(arr, k, j)
+      i++
+      j--
+    }
+    console.log('----',arr, i, j, k)
+  }
+
+  return arr
+}
+
+function swap (arr, i, j) {
+  let tem = arr[i]
+  arr[i] = arr[j]
+  arr[j] = tem
+}
+
+console.log('process4', process4([3, 5, 0, 3, 4, 5, 2, 6, 9, 6], 5))
