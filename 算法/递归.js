@@ -54,6 +54,63 @@ function merge(arr, L, M, R) {
 }
 
 // let arr = [1,24,4,65,32,245,345,345,575]
-let arr = [1, 24, 4]
+// let arr = [1, 24, 4]
 
-console.log('---', process2(arr, 0, 2), arr)
+// console.log('---', process2(arr, 0, 2), arr)
+
+/**
+归并排序的扩展问题
+小和问题 和 逆序对问题
+1. 小和问题
+在一个数组中，每一个数左边比当前数小对数累加起来，
+叫做这个数组的小和。求一个数组的小和。
+
+2. 逆序对问题
+在一个数组中，左边的数如果比右边的数大，则两个数构成一个逆序对，请打印所有的逆序对。
+**/
+
+
+
+// 小和问题。
+
+let totalNum = 0
+function process3 (arr, left, right) {
+  if(left == right) return  // 出口
+
+  let mid = left + ((right - left) >> 1)
+  process3(arr, left, mid)
+  process3(arr, mid + 1, right)
+  merge1(arr, left, mid, right)
+}
+
+function merge1(arr, L, M, R) {
+  let help = []
+  let i = 0;
+  let p1 = L;
+  let p2 = M + 1;
+  while(p1 <= M && p2 <= R) {
+    if(arr[p1] <= arr[p2]) {
+      help[i++] = arr[p1++]
+      totalNum += (arr[p1 - 1] * (R - p2 + 1))
+    } else {
+      help[i++] = arr[p2++]
+    }
+  }
+
+  while (p1 <= M) {
+    help[i++] = arr[p1++];
+  }
+
+  while (p2 <= R) {
+    help[i++] = arr[p2++]
+  }
+
+  for(i = 0; i < help.length; i++) {
+    arr[L + i] = help[i]
+  }
+}
+let arr = [1, 3, 4, 2, 5]
+
+console.log('---', process3(arr, 0, 4), arr)
+
+console.log('totalNum', totalNum)
