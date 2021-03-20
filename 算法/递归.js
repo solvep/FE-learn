@@ -131,10 +131,6 @@ function process4(arr, target) {
       swap(arr, k, i)
       i++
     }
-    if(arr[k] == target) {
-      // j++
-      console.log('++')
-    }
 
     if(arr[k] > target) {
       swap(arr, k, j)
