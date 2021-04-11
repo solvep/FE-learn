@@ -6,50 +6,48 @@
 // 2) log(b,a) == d -> 复杂度为O(N^d * logN)
 // 3) log(b,a) < d -> 复杂度为O(N^d)
 
-
 function process(arr, left, right) {
-  if(left == right) return arr[left] // 出口
+  if (left == right) return arr[left]; // 出口
 
-  let mid = left + ((right - left) >> 1)
-  let leftMax = process(arr, left, mid)
-  let rightMax = process(arr, mid + 1, right)
-  return Math.max(leftMax, rightMax)
+  let mid = left + ((right - left) >> 1);
+  let leftMax = process(arr, left, mid);
+  let rightMax = process(arr, mid + 1, right);
+  return Math.max(leftMax, rightMax);
 }
 
 // let arr = [1,24,4,65,32,245,345,345,575]
 
 // console.log('---', process(arr, 0, 3))
 
-
 // 递归排序
 
-function process2 (arr, left, right) {
-  if(left == right) return  // 出口
+function process2(arr, left, right) {
+  if (left == right) return; // 出口
 
-  let mid = left + ((right - left) >> 1)
-  process2(arr, left, mid)
-  process2(arr, mid + 1, right)
-  merge(arr, left, mid, right)
+  let mid = left + ((right - left) >> 1);
+  process2(arr, left, mid);
+  process2(arr, mid + 1, right);
+  merge(arr, left, mid, right);
 }
 
 function merge(arr, L, M, R) {
-  let help = []
+  let help = [];
   let i = 0;
   let p1 = L;
   let p2 = M + 1;
-  while(p1 <= M && p2 <= R) {
+  while (p1 <= M && p2 <= R) {
     help[i++] = arr[p1] <= arr[p2] ? arr[p1++] : arr[p2++];
   }
   while (p1 <= M) {
     help[i++] = arr[p1++];
   }
   while (p2 <= R) {
-    help[i++] = arr[p2++]
+    help[i++] = arr[p2++];
   }
 
-  for(i = 0; i < help.length; i++) {
-    console.log('---', arr[L + i])
-    arr[L + i] = help[i]
+  for (i = 0; i < help.length; i++) {
+    console.log("---", arr[L + i]);
+    arr[L + i] = help[i];
   }
 }
 
@@ -69,31 +67,29 @@ function merge(arr, L, M, R) {
 在一个数组中，左边的数如果比右边的数大，则两个数构成一个逆序对，请打印所有的逆序对。
 **/
 
-
-
 // 小和问题。
 
-let totalNum = 0
-function process3 (arr, left, right) {
-  if(left == right) return  // 出口
+let totalNum = 0;
+function process3(arr, left, right) {
+  if (left == right) return; // 出口
 
-  let mid = left + ((right - left) >> 1 )
-  process3(arr, left, mid)
-  process3(arr, mid + 1, right)
-  merge1(arr, left, mid, right)
+  let mid = left + ((right - left) >> 1);
+  process3(arr, left, mid);
+  process3(arr, mid + 1, right);
+  merge1(arr, left, mid, right);
 }
 
 function merge1(arr, L, M, R) {
-  let help = []
+  let help = [];
   let i = 0;
   let p1 = L;
   let p2 = M + 1;
-  while(p1 <= M && p2 <= R) {
-    if(arr[p1] <= arr[p2]) {
-      help[i++] = arr[p1++]
-      totalNum += (arr[p1 - 1] * (R - p2 + 1))
+  while (p1 <= M && p2 <= R) {
+    if (arr[p1] <= arr[p2]) {
+      help[i++] = arr[p1++];
+      totalNum += arr[p1 - 1] * (R - p2 + 1);
     } else {
-      help[i++] = arr[p2++]
+      help[i++] = arr[p2++];
     }
   }
 
@@ -102,51 +98,71 @@ function merge1(arr, L, M, R) {
   }
 
   while (p2 <= R) {
-    help[i++] = arr[p2++]
+    help[i++] = arr[p2++];
   }
 
-  for(i = 0; i < help.length; i++) {
-    arr[L + i] = help[i]
+  for (i = 0; i < help.length; i++) {
+    arr[L + i] = help[i];
   }
 }
-let arr = [1, 3, 4, 2, 5]
+let arr = [1, 3, 4, 2, 5];
 
-console.log('---', process3(arr, 0, 4), arr)
+console.log("---", process3(arr, 0, 4), arr);
 
-console.log('totalNum', totalNum)
-
+console.log("totalNum", totalNum);
 
 // 荷兰过期问题
 /**
  * 问题一， 给定一个数组arr， 和一个数num，请把小于等于num的数放在数组的左边，
  * 大于num的数放在数组的右边。 要求额外的空间复杂度O（1），时间复杂度 n
- * 
-**/
+ *
+ **/
 
 function process4(arr, target) {
   let i = 0;
   let j = arr.length - 1;
-  for(let k = 0; k < j  ; k++) {
-    if(arr[k] < target) {
-      swap(arr, k, i)
-      i++
+  for (let k = 0; k < j; k++) {
+    if (arr[k] < target) {
+      swap(arr, k, i);
+      i++;
     }
 
-    if(arr[k] > target) {
-      swap(arr, k, j)
-      i++
-      j--
+    if (arr[k] > target) {
+      swap(arr, k, j);
+      i++;
+      j--;
     }
-    console.log('----',arr, i, j, k)
+    console.log("----", arr, i, j, k);
   }
 
-  return arr
+  return arr;
 }
 
-function swap (arr, i, j) {
-  let tem = arr[i]
-  arr[i] = arr[j]
-  arr[j] = tem
+function swap(arr, i, j) {
+  let tem = arr[i];
+  arr[i] = arr[j];
+  arr[j] = tem;
 }
 
-console.log('process4', process4([3, 5, 0, 3, 4, 5, 2, 6, 9, 6], 5))
+console.log("process4", process4([3, 5, 0, 3, 4, 5, 2, 6, 9, 6], 5));
+
+// 求最大值
+
+function main(arr) {
+  return maxFn(arr, 0, arr.length - 1);
+}
+
+function maxFn(arr, left, right) {
+  if (left < right) {
+    let mid = left + ((right - left) >> 1);
+    let rightValue = maxFn(arr, mid + 1, right);
+    let leftValue = maxFn(arr, left, mid);
+    console.log("--", rightValue, leftValue);
+    return Math.max(rightValue, leftValue);
+  } else {
+    if (arr[left] === undefined) return 0;
+    return arr[left];
+  }
+}
+
+console.log("maxFn:", main([123, 4, 09, null, undefined, 134]));

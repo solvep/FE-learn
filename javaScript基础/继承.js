@@ -44,35 +44,35 @@
 
 // 组合继承
 
-function parent3() {
-  this.name = "parent3";
-  this.play = [1, 2, 3];
-}
+// function parent3() {
+//   this.name = "parent3";
+//   this.play = [1, 2, 3];
+// }
 
-parent3.prototype.getName = function () {
-  return this.name;
-};
-parent3.prototype.test = [1, 2, 3, 4, 5];
+// parent3.prototype.getName = function () {
+//   return this.name;
+// };
+// parent3.prototype.test = [1, 2, 3, 4, 5];
 
-parent3.prototype.nickName = "123";
+// parent3.prototype.nickName = "123";
 
-function child3() {
-  parent3.call(this);
-  this.type = "child3";
-}
+// function child3() {
+//   parent3.call(this);
+//   this.type = "child3";
+// }
 
-child3.prototype = new parent3();
+// child3.prototype = new parent3();
 
-child3.prototype.constructor = child3;
+// child3.prototype.constructor = child3;
 
-let s1 = new child3();
-let s2 = new child3();
+// let s1 = new child3();
+// let s2 = new child3();
 
-s2.name = 1;
-s2.test.push("090");
-s2.play.push("11111");
+// s2.name = 1;
+// s2.test.push("090");
+// s2.play.push("11111");
 
-console.log("-----", s1.test, s2.test, s1.nickName, s2.nickName);
+// console.log("-----", s1.test, s2.test, s1.nickName, s2.nickName);
 
 /* 请在下面写出JavaScript面向对象编程的混合式继承。并写出ES6版本的继承。
 要求：汽车是父类，Cruze是子类。父类有颜色、价格属性，有售卖的方法。
@@ -87,6 +87,7 @@ function car() {
 car.prototype.method = function () {
   console.log(`将${this.color}的${this.name}买给了小王价格是${this.price}。`);
 };
+car.prototype.arr = [1, 2, 3];
 
 function cruze() {
   car.call(this);
@@ -96,8 +97,21 @@ function cruze() {
 }
 
 // cruze.prototype = new car()
-cruze.prototype = Object.create(car.prototype);
-cruze.prototype.constructor = cruze;
+let _proto = Object.create(car.prototype);
+_proto.constructor = cruze.prototype.constructor;
+cruze.prototype = _proto;
+
 console.log("cruze.prototype", cruze.prototype);
 let c = new cruze();
+let b = new cruze();
 c.method();
+c.arr.push(1);
+console.log("----", b.arr);
+
+// let a = 1;
+// let b = 2;
+// let c = 3;
+// a = b = c;
+// console.log("==", a, b, c); // 3 3 3
+
+var x = { a: 1, b: 2 };
