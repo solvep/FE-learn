@@ -69,47 +69,48 @@ function merge(arr, L, M, R) {
 
 // 小和问题。
 
-let totalNum = 0;
 function process3(arr, left, right) {
-  if (left == right) return; // 出口
+  if (left == right) return 0; // 出口
 
   let mid = left + ((right - left) >> 1);
-  process3(arr, left, mid);
-  process3(arr, mid + 1, right);
-  merge1(arr, left, mid, right);
+  return (
+    process3(arr, left, mid) +
+    process3(arr, mid + 1, right) +
+    merge1(arr, left, mid, right)
+  );
 }
 
-function merge1(arr, L, M, R) {
-  let help = [];
+function merge1(arr, left, mid, right) {
+  let tem = [];
   let i = 0;
-  let p1 = L;
-  let p2 = M + 1;
-  while (p1 <= M && p2 <= R) {
+  let p1 = left;
+  let p2 = mid + 1;
+  let totalNum = 0;
+  while (p1 <= mid && p2 <= right) {
     if (arr[p1] <= arr[p2]) {
-      help[i++] = arr[p1++];
-      totalNum += arr[p1 - 1] * (R - p2 + 1);
+      tem[i++] = arr[p1++];
+      totalNum += arr[p1 - 1] * (right - p2 + 1);
     } else {
-      help[i++] = arr[p2++];
+      tem[i++] = arr[p2++];
     }
   }
 
-  while (p1 <= M) {
-    help[i++] = arr[p1++];
+  while (p1 <= mid) {
+    tem[i++] = arr[p1++];
+  }
+  while (p2 <= mid) {
+    tem[i++] = arr[p2++];
   }
 
-  while (p2 <= R) {
-    help[i++] = arr[p2++];
+  for (i = 0; i < tem.length; i++) {
+    arr[left + i] = tem[i];
   }
-
-  for (i = 0; i < help.length; i++) {
-    arr[L + i] = help[i];
-  }
+  return totalNum;
 }
+
 let arr = [1, 3, 4, 2, 5];
 
 console.log("---", process3(arr, 0, 4), arr);
-
-console.log("totalNum", totalNum);
 
 // 荷兰过期问题
 /**
@@ -129,10 +130,9 @@ function process4(arr, target) {
 
     if (arr[k] > target) {
       swap(arr, k, j);
-      i++;
       j--;
     }
-    console.log("----", arr, i, j, k);
+    // console.log("----", arr, i, j, k);
   }
 
   return arr;
