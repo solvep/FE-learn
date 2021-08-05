@@ -1,1 +1,1 @@
-console.log("world  hello");
+console.log("world  hello兴哥");
