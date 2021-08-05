@@ -1,5 +1,5 @@
-// 浅拷贝的原理和实现 
-// 对于浅拷贝的递归我们可以初步理解为： 
+// 浅拷贝的原理和实现
+// 对于浅拷贝的递归我们可以初步理解为：
 /**
  * 自己创建一个新的对象，来接受你要重新复制或引用的对象值。如果对象属性是基本的数据类型，
  * 复制的就是基本类型的值给新对象；但如果属性是引用数据类型，复制的就是内存中的地址
@@ -81,11 +81,11 @@
 // console.log('===', arr, newArr)
 
 /**
- * 深拷贝 
+ * 深拷贝
  * 将一个对象从内存中完整地拷贝出来一份给目标对象，并从堆内存中开辟一个全新的空间
  * 放新对象，并且新对象的修改不会改变原对象，二者实现真正的分离
- * 
- * 使用JSON.stringify 
+ *
+ * 使用JSON.stringify
  * 1. 拷贝的对象的值如果有函数，undefined,symbol, 经过JSON.stringify 序列化之后的
  * 字符串中这个键值对会小事
  * 2. 拷贝Date引用类型会变成字符串
@@ -106,19 +106,19 @@
 
 // console.log('----', newObj, obj)
 
-// function Obj() { 
+// function Obj() {
 
-//   this.func = function () { alert(1) }; 
+//   this.func = function () { alert(1) };
 
 //   this.obj = {a:1};
 
 //   this.arr = [1,2,3];
 
-//   this.und = undefined; 
+//   this.und = undefined;
 
-//   this.reg = /123/; 
+//   this.reg = /123/;
 
-//   this.date = new Date(0); 
+//   this.date = new Date(0);
 
 //   this.NaN = NaN;
 
@@ -126,11 +126,11 @@
 
 //   this.sym = Symbol(1);
 
-// } 
+// }
 
 // let obj1 = new Obj();
 
-// Object.defineProperty(obj1,'innumerable',{ 
+// Object.defineProperty(obj1,'innumerable',{
 
 //   enumerable:false,
 
@@ -146,23 +146,37 @@
 
 // console.log('obj2',obj2);
 
-
 // 实现一个深拷贝
 
 function deepClone(target) {
-  let cloneOje = {}
-  if(typeof target === 'object') {
-    for(const key in target) {
-      (typeof target[key] === 'object') ? 
-        cloneOje[key] = deepClone(target[key]) : cloneOje[key] = target[key]
+  let cloneOje = {};
+  if (typeof target === "object") {
+    for (const key in target) {
+      typeof target[key] === "object"
+        ? (cloneOje[key] = deepClone(target[key]))
+        : (cloneOje[key] = target[key]);
     }
   }
-  return cloneOje
+  return cloneOje;
 }
-let obj = {a: 1, b: 3, c: {a: 23}}
-let newObj = deepClone(obj)
+let obj = { a: 1, b: 3, c: { a: 23 } };
+let newObj = deepClone(obj);
 
-newObj.c.a = 100
+newObj.c.a = 100;
 
-console.log('----', obj, newObj)
+console.log("----", obj, newObj);
 
+class A {
+  constructor() {
+    this.name = "1111";
+  }
+}
+A.prototype.x = 100;
+
+class B extends A {
+  m() {
+    return super.x;
+  }
+}
+const b = new B();
+console.log("---", b.m(), b.name);
